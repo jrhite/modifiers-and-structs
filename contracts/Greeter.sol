@@ -9,6 +9,14 @@ contract Greeter {
     string private greeting;
     uint256 public favoriteNumber;
 
+    struct FriendInfo {
+        bool isFriend;
+        string greeting;
+        uint256 favoriteNumber; 
+    }
+
+    mapping (address => FriendInfo) public friends;
+
     modifier ownerOnly() {
         require(owner == msg.sender, "Sorry, only the owner can call this function!");
         _;
@@ -38,5 +46,9 @@ contract Greeter {
 
     function setFavoriteNumber(uint256 _favoriteNumber) public ownerOnly evenOnly(_favoriteNumber) {
         favoriteNumber = _favoriteNumber;
+    }
+
+    function addFriend(address friend, string memory _greeting, uint256 _favoriteNumber) external ownerOnly {
+        friends[friend] = FriendInfo(true, _greeting, _favoriteNumber);
     }
 }

@@ -3,10 +3,10 @@ const { ethers } = require("hardhat");
 
 describe("Greeter", function () {
   let greeter;
-  let owner, nonOwner;
+  let owner, nonOwner, friend1, friend2;
 
   before(async function () {
-    [owner, nonOwner] = await ethers.getSigners();
+    [owner, nonOwner, friend1, friend2] = await ethers.getSigners();
 
     const Greeter = await ethers.getContractFactory('Greeter', owner);
     greeter = await Greeter.deploy('Hello, world!', 2);
@@ -60,5 +60,17 @@ describe("Greeter", function () {
     await expect(setFavoriteNumberTx).to.be.revertedWith(
       'Sorry, only even numbers allowed!'
     );
+  });
+
+  it('Should add a new friend if owner calls addFriend()', async function () {
+    const setFavoriteNumberTx = await greeter.addFriend(friend1.address, 'Bye, bye', 11);
+
+    const setFavoriteNumberTxReceipt = await setFavoriteNumberTx.wait();
+
+    const friend = await greeter.friends(friend1.address);
+
+    expect(friend.isFriend).to.be.true;
+    expect(friend.greeting).to.equal('Bye, bye');
+    expect(friend.favoriteNumber).to.equal(11);
   });
 });
