@@ -9,15 +9,13 @@ contract Greeter {
     string private greeting;
     uint256 public favoriteNumber;
 
-    modifier ownerOnly() {
-        require(owner == msg.sender, "Sorry, only the owner can call this function!");
-        _;
-    }
+    // TODO: implement ownerOnly modifier
 
-    modifier evenOnly(uint256 num) {
-        require(num % 2  == 0, "Sorry, only even numbers allowed!");
-        _;
-    }
+    // TODO: implement evenOnly modifier
+
+    // TODO: add FriendInfo struct
+
+    // TODO: add friends mapping
 
     constructor(string memory _greeting, uint256 _favoriteNumber) {
         console.log("Deploying a Greeter with greeting:", _greeting);
@@ -31,12 +29,16 @@ contract Greeter {
         return greeting;
     }
 
-    function setGreeting(string memory _greeting) public ownerOnly {
+    // TODO: add ownerOnly modifier
+    function setGreeting(string memory _greeting) public {
         console.log("Changing greeting from '%s' to '%s'", greeting, _greeting);
         greeting = _greeting;
     }
 
-    function setFavoriteNumber(uint256 _favoriteNumber) public ownerOnly evenOnly(_favoriteNumber) {
+    // TODO: add ownerOnly and evenOnly modifiers
+    function setFavoriteNumber(uint256 _favoriteNumber) public {
         favoriteNumber = _favoriteNumber;
     }
+
+    // TODO: implement addFriend() function with ownerOnly modifier
 }
